@@ -3,7 +3,7 @@ import Layout from "../components/layout/Layout";
 
 
 
-const Home = () => (
+const Popular = () => (
   <div>
     <Layout>
       <h1>Popular</h1>
@@ -11,4 +11,4 @@ const Home = () => (
 
     </div>
 );
-export default Home;
+export default Popular;

@@ -3,7 +3,7 @@ import Layout from "../components/layout/Layout";
 
 
 
-const Home = () => (
+const NewProduct = () => (
   <div>
     <Layout>
       <h1>new product</h1>
@@ -11,4 +11,4 @@ const Home = () => (
 
     </div>
 );
-export default Home;
+export default NewProduct;
