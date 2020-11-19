@@ -4,6 +4,11 @@ export const Form  = styled.form`
     max-width:600px;
     width:95%;
     margin: 5rem auto  0 auto;
+
+    fieldset{
+        margin:2rem 0;
+        border: 1px solid #e1e1e1;
+    }
  `;
 
  export const InputBox = styled.div`
@@ -15,9 +20,12 @@ export const Form  = styled.form`
         flex: 0 0 150px;
         font-size:1.8 rem;
     }
-    input{
+    input,textarea{
         flex:1;
         padding: 1rem;
+    }
+    textarea{
+        height:200px;
     }
  `;
 

@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { css } from "@emotion/core";
 import Layout from "../components/layout/Layout";
 import { Form, InputBox, InputSubmit, Errors } from "../components/ui/Form";
-
+import firebase from '../firebase'
 import useValidated from "../hooks/useValidated";
 import validateCreateAccount from "../validation/validateCreateAccount";
+import Router from 'next/router';
 const STATE_INITIAl = {
   name: "",
   email: "",
@@ -12,6 +13,7 @@ const STATE_INITIAl = {
 };
 
 const SignUp = () => {
+  const [errorFirebase, setErrorFirebase] = useState(false);
   const {
     items,
     errors,
@@ -22,8 +24,14 @@ const SignUp = () => {
 
   const { name, password, email } = items;
 
-  function createAccount() {
-    console.log("create account ...");
+  async function createAccount() {
+      try {
+        await firebase.register(name,email,password);
+        Router.push('/');
+      } catch (e) {
+        console.error('There was a error: ', e.message);
+        setErrorFirebase(e.message)
+      }
   }
   return (
     <div>
@@ -80,7 +88,7 @@ const SignUp = () => {
               />
             </InputBox>
             {errors.password && <Errors>{errors.password}</Errors>}
-
+            {errorFirebase && <Errors>{errorFirebase}</Errors>} 
             <InputSubmit type="submit" value="Create account" />
           </Form>
         </>
