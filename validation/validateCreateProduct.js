@@ -11,7 +11,7 @@ export default function validareCreateProduct(values) {
 
   if (!values.url) {
     errors.url = "url product is required";
-  } else if (!/^(ftp|http|https):\/\/[^ "]+$/.test(errors.url)) {
+  } else if (!/^(ftp|http|https):\/\/[^ "]+$/.test(values.url)) {
     errors.url = "Invalid Url";
   }
 
