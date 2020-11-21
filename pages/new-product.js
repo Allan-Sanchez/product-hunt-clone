@@ -20,9 +20,9 @@ const NewProduct = () => {
   const [errorFirebase, setErrorFirebase] = useState(false);
 
   //input file
-  const [imageInput, setImageInput] = useState(null);
   const [progress, setProgress] = useState(0);
   const [urlImage, setUrlImage] = useState("");
+  const [pathName, setPathName] = useState("");
 
   const {
     items,
@@ -45,6 +45,7 @@ const NewProduct = () => {
       company,
       url,
       urlImage,
+      pathName,
       description,
       votes: 0,
       comments: [],
@@ -63,7 +64,7 @@ const NewProduct = () => {
       let image = e.target.files[0];
       image.fullname = `${Date.now()}-${image.name}`;
 
-      // setImageInput(image);
+      setPathName(image.fullname) ;
       // console.log(image);
       const uploadTask = firebase.storage
         .ref(`products/${image.fullname}`)
@@ -90,7 +91,7 @@ const NewProduct = () => {
             .getDownloadURL()
             .then((url) => {
               console.log(url);
-              setUrlImage({ url });
+              setUrlImage( url );
             });
         }
       );
