@@ -40,6 +40,7 @@ const Product = () => {
   const [product, setProduct] = useState({});
   const [errorProduct, setErrorProduct] = useState(false);
   const [productComment, setProductComment] = useState({});
+  const [getDB, setGetDB] = useState(true);
   const router = useRouter();
   const {
     query: { id },
@@ -48,20 +49,22 @@ const Product = () => {
   const { firebase, user } = useContext(FirebaseContext);
 
   useEffect(() => {
-    if (id) {
+    if (id && getDB) {
       const getProduct = async () => {
         const productQuery = await firebase.db.collection("products").doc(id);
         const product = await productQuery.get();
         if (product.exists) {
           setProduct(product.data());
           setErrorProduct(false);
+          setGetDB(false);
         } else {
+          setGetDB(false);
           setErrorProduct(true);
         }
       };
       getProduct();
     }
-  }, [id, product]);
+  }, [id,product]);
 
   if (!errorProduct && Object.keys(product).length === 0) return "Loading...";
   //   if(!errorProduct) return 'Loading...';
@@ -77,6 +80,7 @@ const Product = () => {
     comments,
     owner,
     userVote,
+    pathName
   } = product;
 
   const handleVote = () => {
@@ -86,6 +90,7 @@ const Product = () => {
 
     const TotalVote = votes + 1;
     if (userVote.includes(user.uid)) return;
+    console.log('past');
 
     const newVote = [...userVote, user.uid];
     //update firebase votes
@@ -99,6 +104,7 @@ const Product = () => {
       ...product,
       votes: TotalVote,
     });
+    setGetDB(true);
   };
 
   const handleMessage = (e) => {
@@ -108,8 +114,16 @@ const Product = () => {
     });
   };
 
-  const handleSubmitMessage = (e) => {
+  const isOwner = (id) => {
+    // if(!user) return false;
+    if (owner.id == id) {
+      return true;
+    }
+  };
+
+  const handleSubmitMessage = async (e) => {
     e.preventDefault();
+    if(Object.keys(productComment).length === 0) return;
     if (!user) {
       return router.push("/login");
     }
@@ -119,13 +133,39 @@ const Product = () => {
     const newComment = [...comments, productComment];
 
     //update comment firebase
-    firebase.db.collection("products").doc(id).update({ comments: newComment });
+    await firebase.db.collection("products").doc(id).update({ comments: newComment });
 
     //update state commment
-    setProductComment({
+    setProduct({
       ...product,
       comments: newComment,
     });
+    setGetDB(true);
+    setProductComment({});
+    document.getElementById('formMessage').reset();
+  };
+
+  const canDelete = () => {
+    if (!user) return false;
+    if (owner.id === user.uid) {
+      return true;
+    }
+  };
+  const handleDeleteProduct =async () => {
+    if(!user){
+      return router.push('/login');
+    }
+    if (owner.id !== user.uid) {
+      return router.push('/');
+    }
+
+    try {
+        await firebase.storage.ref("products").child(pathName).delete();
+        await firebase.db.collection('products').doc(id).delete();
+        router.push('/');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -164,7 +204,7 @@ const Product = () => {
                 <>
                   <h2>Type your comments</h2>
 
-                  <form onSubmit={handleSubmitMessage}>
+                  <form onSubmit={handleSubmitMessage} id="formMessage">
                     <InputBox>
                       <input
                         type="text"
@@ -192,11 +232,53 @@ const Product = () => {
                 <ul>
                   {comments.map((comment, i) => (
                     <li key={`${comment.userId}-${i}`}>
-                      <p>
-                        <b>Owner</b>: {comment.userName}
-                        <br/>
-                        <span css={css` margin-left:2rem;`}>{comment.message}</span>
-                      </p>
+                      <div>
+                        <div
+                          css={css`
+                            display: flex;
+                            width: 26%;
+                            justify-content: space-around;
+                          `}
+                        >
+                          <div>
+                            <b>Owner</b>: {comment.userName}
+                          </div>
+                          <div>
+                            {isOwner(comment.userId) && (
+                              <svg width="20px" viewBox="0 0 507.2 507.2">
+                                <title>owner</title>
+                                <g>
+                                  <circle
+                                    cx="253.6"
+                                    cy="253.6"
+                                    r="253.6"
+                                    fill="#da552f"
+                                  ></circle>
+                                  <path
+                                    d="M188.8 368l130.4 130.4c108-28.8 188-127.2 188-244.8v-7.2L404.8 152l-216 216z"
+                                    fill="#C44D2A"
+                                  ></path>
+                                  <path
+                                    d="M260 310.4c11.2 11.2 11.2 30.4 0 41.6l-23.2 23.2c-11.2 11.2-30.4 11.2-41.6 0L93.6 272.8c-11.2-11.2-11.2-30.4 0-41.6l23.2-23.2c11.2-11.2 30.4-11.2 41.6 0L260 310.4z"
+                                    fill="#FFF"
+                                  ></path>
+                                  <path
+                                    d="M348.8 133.6c11.2-11.2 30.4-11.2 41.6 0l23.2 23.2c11.2 11.2 11.2 30.4 0 41.6l-176 175.2c-11.2 11.2-30.4 11.2-41.6 0l-23.2-23.2c-11.2-11.2-11.2-30.4 0-41.6l176-175.2z"
+                                    fill="#FFF"
+                                  ></path>
+                                </g>
+                              </svg>
+                            )}
+                          </div>
+                        </div>
+                        <span
+                          css={css`
+                            margin-left: 4rem;
+                          `}
+                        >
+                          {comment.message}
+                        </span>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -220,8 +302,18 @@ const Product = () => {
                 {user && <ButtonVote onClick={handleVote}>Vote</ButtonVote>}
               </div>
               <Button target="_blank" bgColor="true" href={url}>
-                Visit Product Page{" "}
+                Visit Product Page
               </Button>
+              {canDelete() && ( <Button
+                  css={css`
+                    background-color: #c23636;
+                    color: #fff;
+                  `}
+                  onClick={handleDeleteProduct}
+                >
+                  Delete Page
+                </Button>
+              )}
             </aside>
           </CardProduct>
         </div>
