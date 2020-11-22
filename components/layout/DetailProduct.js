@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import Link from "next/link";
 
 const CardProduct = styled.li`
   padding: 4rem;
@@ -18,60 +19,60 @@ const DescriptionProduct = styled.div`
 `;
 
 const BoxComments = styled.div`
-    margin-top:2rem;
-    display:flex;
-    align-items:center;
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
 
-    div{
-        display:flex;
-        align-items:center;
-        border: 1px solid #e1e1e1;
-        padding: .3rem 1rem;
-        margin-right: 2rem;
+  div {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e1e1e1;
+    padding: 0.3rem 1rem;
+    margin-right: 2rem;
+  }
+  img {
+    width: 2rem;
+    margin-right: 2rem;
+  }
+  p {
+    font-size: 1.6rem;
+    margin-right: 1rem;
+    font-weight: 700;
+    &::last-of-type {
+      margin: 0;
     }
-    img{
-        width:2rem;
-        margin-right:2rem;
-    }
-    p{
-        font-size:1.6rem;
-        margin-right:1rem;
-        font-weight:700;
-        &::last-of-type{
-            margin:0;
-        }
-    }
+  }
 `;
 
 const BoxTitle = styled.a`
-    font-size:3rem;
-    font-weight:bold;
-    margin:0;
-    :hover{
-        cursor: pointer;
-    }
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 0;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const BoxDescription = styled.p`
-    font-size:1.6rem;
-    margin:0;
-    color:#888;
+  font-size: 1.6rem;
+  margin: 0;
+  color: #888;
 `;
 
 const BoxVotes = styled.div`
-    flex: 0 1 auto;
-    text-align:center;
-    border: 1px solid #e1e1e1;
-    padding:1rem 3rem;
+  flex: 0 1 auto;
+  text-align: center;
+  border: 1px solid #e1e1e1;
+  padding: 1rem 3rem;
 
-    div{
-        font-size:2rem;
-    }
-    p{
-        margin:0;
-        font-size:2rem;
-        font-weight:700;
-    }
+  div {
+    font-size: 2rem;
+  }
+  p {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+  }
 `;
 
 const ImageProduct = styled.img`
@@ -98,7 +99,9 @@ const DetailProduct = ({ product }) => {
           <ImageProduct src={urlImage} alt={name} />
         </div>
         <div>
-          <BoxTitle>{name}</BoxTitle>
+          <Link href="/products/[id]" as={`/products/${id}`}>
+            <BoxTitle>{name}</BoxTitle>
+          </Link>
 
           <BoxDescription>{description}</BoxDescription>
 
