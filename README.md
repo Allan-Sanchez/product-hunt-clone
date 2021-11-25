@@ -1,30 +1,38 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Clond Product Hunt
 
-## Getting Started
+Project created as part of my learning process with react and firebase This project is a product hunt clone with some limitations but the following actions are done
 
-First, run the development server:
+- searching
+- Login
+- Register
+- Create Product
+- Vote Product
+- Filter Product for tranding
+- Comments the products
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Technologies used to created
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+![Styled Components](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Project Images
 
-## Learn More
+### Home
 
-To learn more about Next.js, take a look at the following resources:
+![home page product hunt](https://res.cloudinary.com/dx9n8tsyu/image/upload/f_auto,q_auto/v1637807131/react-proyect/screenshot-localhost_3000-2021.11.24-20_23_20_pwnmpo.png)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Register Page
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+![register page](https://res.cloudinary.com/dx9n8tsyu/image/upload/f_auto,q_auto/v1637807132/react-proyect/screenshot-localhost_3000-2021.11.24-20_24_27_rnwdhf.png)
 
-## Deploy on Vercel
+### Create Product
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![create page product](https://res.cloudinary.com/dx9n8tsyu/image/upload/f_auto,q_auto/v1637807131/react-proyect/screenshot-localhost_3000-2021.11.24-20_23_41_mzjdxp.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Detail Product
+
+![detail product page](https://res.cloudinary.com/dx9n8tsyu/image/upload/f_auto,q_auto/v1637807189/react-proyect/screenshot-localhost_3000-2021.11.24-20_26_15_ncai5f.png)
+
+
