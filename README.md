@@ -1,4 +1,4 @@
-# Clond Product Hunt
+# Product Hunt Clone
 
 Project created as part of my learning process with react and firebase This project is a product hunt clone with some limitations but the following actions are done
 
